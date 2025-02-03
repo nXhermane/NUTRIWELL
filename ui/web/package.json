@@ -1,0 +1,8 @@
+{
+  "name": "@NUTRIWELL/WEB_UI",
+  "version": "0.0.0",
+  "description": "C'est le site internet du projet nutriwell",
+  "main": "index.ts",
+  "author": "nxhermane",
+  "license": "MIT"
+}

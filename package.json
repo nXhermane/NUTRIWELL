@@ -1,0 +1,31 @@
+{
+  "name": "NUTRIWELL",
+  "version": "0.0.0",
+  "workspaces": {
+    "packages": [
+      "core",
+      "adapter/react-native",
+      "adapter/server",
+      "ui/react-native",
+      "ui/web"
+    ],
+    "nohoist": [
+      "**/react-native",
+      "**/react-native/**",
+      "**/@react-native/**",
+      "**/@react-native-community/**",
+      "**/@react-navigation/**",
+      "**/expo",
+      "**/expo/**"
+    ]
+  },
+  "description": "Projet de logiciel destiné aux professionnels de nutrition",
+  "author": "nxhermane",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^22.13.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
+  }
+}

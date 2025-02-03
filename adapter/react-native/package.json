@@ -1,0 +1,8 @@
+{
+  "name": "@NUTRIWELL/REACT_NATIVE_ADAPTER",
+  "version": "0.0.0",
+  "description": "C'est l'adapter du core a l'app mobile react-native du projet nutriwell ",
+  "main": "index.ts",
+  "author": "nxhermane",
+  "license": "MIT"
+}

@@ -1,0 +1,8 @@
+{
+  "name": "@NUTRIWELL/SERVER_ADAPTER",
+  "version": "0.0.0",
+  "description": "C'est le server qui va adapter le core a l'application web du projet nutriwell",
+  "main": "index.ts",
+  "author": "nxhermane",
+  "license": "MIT"
+}

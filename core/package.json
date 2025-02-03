@@ -1,0 +1,17 @@
+{
+  "name": "@NUTRIWELL/CORE",
+  "version": "0.0.0",
+  "scripts": {
+    "start": "ts-node index.ts"
+  },
+  "description": "C'est le core du projet , il contient toute la logique metier, modelisée avec du DDD",
+  "main": "index.ts",
+  "author": "nxhermane",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "domain-eventrix": "^1.0.9",
+    "smart-path-resolver": "^1.0.2",
+    "smartcal": "^1.0.1"
+  }
+}
