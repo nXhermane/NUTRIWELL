@@ -1,9 +1,15 @@
 {
   "extends": "./node_modules/@react-native-community/cli-typescript/tsconfig.json",
   "compilerOptions": {
-      // cutomize
-      "declaration": true,
-      "emitDecoratorMetadata": true,
-      "experimentalDecorators": true
-  },
+    "jsx": "react",
+    // cutomize
+    "declaration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "paths": {
+      // ...
+      "@/*": ["./*"] // Add relative path
+    }
+  }
 }
