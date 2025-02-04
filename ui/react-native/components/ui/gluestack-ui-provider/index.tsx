@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { config } from './config';
 import { ColorSchemeName, useColorScheme, View, ViewProps } from 'react-native';
@@ -47,5 +46,3 @@ export function GluestackUIProvider({
     </View>
   );
 }
-
-

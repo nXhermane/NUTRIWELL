@@ -1,7 +1,6 @@
 {
   "name": "@NUTRIWELL/REACT_NATIVE_UI",
   "version": "0.0.0",
-  "private": true,
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -10,6 +9,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@expo/html-elements": "0.4.2",
     "@gluestack-ui/accordion": "^1.0.8",
     "@gluestack-ui/actionsheet": "^0.2.46",
     "@gluestack-ui/alert": "^0.1.16",
@@ -36,18 +36,10 @@
     "@gluestack-ui/switch": "^0.1.23",
     "@gluestack-ui/textarea": "^0.1.24",
     "@gluestack-ui/toast": "^1.0.8",
-    "@gluestack-ui/nativewind-utils": "^1.0.26",
-    "@gluestack-ui/overlay": "^0.1.16",
-    "@gluestack-ui/toast": "^1.0.8",
-    "expo": "^52.0.0",
-    "expo-sqlite": "~15.1.1",
-    "nativewind": "^4.1.23",
+    "@gluestack-ui/tooltip": "^0.1.38",
+    "@legendapp/motion": "^2.4.0",
     "react": "18.3.1",
-    "react-native": "0.77.0",
-    "react-native-reanimated": "^3.16.7",
-    "react-native-safe-area-context": "^5.1.0",
-    "react-native-svg": "^15.11.1",
-    "tailwindcss": "^4.0.3"
+    "react-native": "0.77.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
