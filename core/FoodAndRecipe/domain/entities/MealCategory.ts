@@ -1,11 +1,26 @@
-import { AggregateID, EmptyStringError, Entity, ExceptionBase, Guard, Result } from "@shared";
+import { AggregateID, AuthValueError, EmptyStringError, Entity, ExceptionBase, Guard, Result } from "@shared";
 
 export interface IMealCategory {
    name: string;
    code: string;
+   translate: { [lang: string]: string };
+   isSystemCategory: boolean;
 }
 //TODO: Je peux venir faire une implementation supplementaire , le cas ou les names change , I think about DomainEvent
 export class MealCategory extends Entity<IMealCategory> {
+   get name(): string {
+      return this.props.name;
+   }
+   get code(): string {
+      return this.props.code;
+   }
+   get isSystemCategory(): boolean {
+      return this.props.isSystemCategory;
+   }
+   get translate(): { [lang: string]: string } {
+      return this.props.translate;
+   }
+
    public validate(): void {
       this._isValid = false;
       if (Guard.isEmpty(this.props.code).succeeded)
@@ -15,12 +30,23 @@ export class MealCategory extends Entity<IMealCategory> {
       this._isValid = true;
    }
    setName(name: string) {
+      this.verifyIfCategoryCanBeUpdate();
       this.props.name = name;
       this.validate();
    }
    setCode(code: string) {
+      this.verifyIfCategoryCanBeUpdate();
       this.props.code = code;
       this.validate();
+   }
+   addNameToTranslate(langCode: string, name: string) {
+      this.verifyIfCategoryCanBeUpdate();
+      this.props.translate[langCode] = name;
+      this.validate();
+   }
+
+   private verifyIfCategoryCanBeUpdate() {
+      if (this.props.isSystemCategory) throw new AuthValueError("Impossible to modify a system MealCategory. Clone it to make a change.");
    }
 
    static create(props: IMealCategory, id: AggregateID): Result<MealCategory> {

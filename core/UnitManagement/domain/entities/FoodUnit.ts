@@ -69,6 +69,12 @@ export class FoodUnit extends Entity<IFoodUnit> {
       this.props.requiresDensity = requiresDensity;
       this.validate();
    }
+   convertTo(otherUnit: FoodUnit, value: number): number {
+      if (Guard.isNegative(value).succeeded) {
+         throw new NegativeValueError("Value cannot be negative");
+      }
+      return (value * this.conversionFactor) / otherUnit.conversionFactor;
+   }
    verifyFoodUnitCanBeUpdate() {
       if (this.props.isSystemUnit) throw new AuthValueError("Impossible to modify the system FoodUnit. Clone it to make a change.");
    }
@@ -89,5 +95,9 @@ export class FoodUnit extends Entity<IFoodUnit> {
             ? Result.fail<FoodUnit>(`[${error.code}]:${error.message}`)
             : Result.fail<FoodUnit>(`Erreur inattendue. ${FoodUnit.constructor.name}`);
       }
+   }
+   override delete(): void {
+      this.verifyFoodUnitCanBeUpdate();
+      this._isDeleted = true;
    }
 }

@@ -1,5 +1,6 @@
 import {
    AggregateID,
+   AuthValueError,
    EmptyStringError,
    Entity,
    ExceptionBase,
@@ -18,6 +19,8 @@ export interface INutrient {
    name: string;
    unit: MeasureUnit;
    decimals: number;
+   translate: { [lang: string]: string };
+   isSystemNutrient: boolean;
 }
 
 export class Nutrient extends Entity<INutrient> {
@@ -36,23 +39,36 @@ export class Nutrient extends Entity<INutrient> {
    get name(): string {
       return this.props.name;
    }
+   get translate(): { [lang: string]: string } {
+      return this.props.translate;
+   }
+   get isSystemNutrient(): boolean {
+      return this.props.isSystemNutrient;
+   }
    setName(name: string) {
+      this.verifyIfNutrientCanBeUpdate();
       this.props.name = name;
    }
    setCode(code: NutrientCode) {
+      this.verifyIfNutrientCanBeUpdate();
       this.props.code = code;
    }
    setTagname(tagname: NutrientTagname) {
+      this.verifyIfNutrientCanBeUpdate();
       this.props.tagname = tagname;
    }
    setUnit(unit: MeasureUnit) {
+      this.verifyIfNutrientCanBeUpdate();
       this.props.unit = unit;
    }
    setDecimals(decimals: number) {
+      this.verifyIfNutrientCanBeUpdate();
       this.props.decimals = decimals;
       this.validate();
    }
-
+   private verifyIfNutrientCanBeUpdate() {
+      if (this.props.isSystemNutrient) throw new AuthValueError("Impossible to modify a system Nutrient. Clone it to make a change.");
+   }
    validate(): void {
       this._isValid = false;
       if (Guard.isNegative(this.props.decimals).succeeded) {
@@ -79,6 +95,8 @@ export class Nutrient extends Entity<INutrient> {
                unit: unit.val,
                decimals: createNutrientProps.decimals,
                tagname: tagname.val,
+               isSystemNutrient: createNutrientProps.isSystemNutrient,
+               translate: createNutrientProps.translate,
             },
          });
          return Result.ok<Nutrient>(nutrient);

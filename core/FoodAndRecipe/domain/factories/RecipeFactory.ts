@@ -1,13 +1,14 @@
 import { AggregateID, ExceptionBase, Factory, GenerateUniqueId, Guard, Result } from "@shared";
 import { Recipe } from "../aggregates";
 import { CreateRecipeProps } from "./factoriesProps";
-import { FoodRepository, FoodUnitValidator, MealCategoryRepository, MealTypeRepository } from "../../infrastructure";
+import { FoodRepository, MealCategoryRepository, MealTypeRepository } from "../../infrastructure";
 import { IMealCategory, IMealType, MealCategory, MealType } from "../entities";
 import { FoodQuantity, Ingredient, PreparationStep } from "../value-objects";
+import { FoodUnitManagerALC } from "../../application/ACL";
 
 export interface RecipeFactoryDependencies {
    idGenerator: GenerateUniqueId;
-   foodUnitValidator: FoodUnitValidator;
+   foodUnitManagerALC: FoodUnitManagerALC;
    mealTypeRepo: MealTypeRepository;
    mealCategoryRepo: MealCategoryRepository;
    foodRepo: FoodRepository;
@@ -29,7 +30,7 @@ export class RecipeFactory implements Factory<CreateRecipeProps, Recipe> {
          const foodIds = await this.dependencies.foodRepo.getAllId();
          const ingregientsResult = ingredients.map((ingredientProps) => Ingredient.create(ingredientProps, foodIds));
 
-         const foodAvailableUnit = await this.dependencies.foodUnitValidator.getAvailableUnits();
+         const foodAvailableUnit = await this.dependencies.foodUnitManagerALC.getFoodAvailableUnit();
          const foodQuantity = FoodQuantity.create(quantity, foodAvailableUnit);
 
          const preparationStepsResult = preparationMethod.map((stepProps) => PreparationStep.create(stepProps));
