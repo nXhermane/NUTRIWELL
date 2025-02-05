@@ -6,7 +6,7 @@
       "core",
       "adapter/react-native",
       "adapter/server",
-      "ui/react-native",
+      "ui/app",
       "ui/web"
     ],
     "nohoist": [

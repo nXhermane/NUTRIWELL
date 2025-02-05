@@ -1,18 +1,7 @@
 import { FoodGroup, IFoodGroup } from "./../entities";
-import {
-   AggregateRoot,
-   BaseEntityProps,
-   EmptyStringError,
-   DuplicateValueError,
-   AuthValueError,
-   Guard,
-   Result,
-   ExceptionBase,
-   GenerateUniqueId,
-} from "@shared";
+import { AggregateRoot, BaseEntityProps, EmptyStringError, DuplicateValueError, AuthValueError, Guard } from "@shared";
 import { INutrientAmount, NutrientAmount } from "../value-objects/NutrientAmount";
 import { FoodQuantity, IFoodQuantity } from "../value-objects";
-import { CreateFoodProps } from "./createPropsType";
 
 export interface IFood {
    code: string;
@@ -51,6 +40,9 @@ export class Food extends AggregateRoot<IFood> {
    get translate(): { [langCode: string]: string } {
       return this.props.translate;
    }
+   get isSystemFood(): boolean {
+      return this.props.isSytemFood;
+   }
    setName(name: string) {
       this.verifyIfFoodCanBeUpdate();
       this.props.name = name;
@@ -82,6 +74,7 @@ export class Food extends AggregateRoot<IFood> {
       this.validate();
    }
    addNameToTranslate(langCode: string, name: string) {
+      this.verifyIfFoodCanBeUpdate();
       this.props.translate[langCode] = name;
       this.validate();
    }
@@ -129,32 +122,16 @@ export class Food extends AggregateRoot<IFood> {
       return true;
    }
    /**
-    * @Note : L'aliment du systeme ne peut pas etre modifier sauf ceux ajouter par l'utilisateur lui meme
-    *
+    * @description : L'aliment du systeme ne peut pas etre modifier sauf ceux ajouter par l'utilisateur lui meme
     */
 
    private verifyIfFoodCanBeUpdate() {
-      if (this.props.isSytemFood) throw new AuthValueError("Impossible to modify a system food.");
+      if (this.props.isSytemFood) throw new AuthValueError("Impossible to modify a system food. Clone it to make a change.");
    }
 
    private findExistingNutrientIndex(newNutrient: NutrientAmount): number {
       return this.props.nutrients.findIndex((nutrient) => {
          return nutrient.unpack().nutrientId === newNutrient.unpack().nutrientId;
       });
-   }
-   static create(createFoodProps: CreateFoodProps, generateUniqueId: GenerateUniqueId): Result<Food> {
-      try {
-         const id = generateUniqueId.generate().toValue();
-
-         const food = new Food({
-            id: id,
-            props: createFoodProps,
-         });
-         return Result.ok<Food>(food);
-      } catch (error) {
-         return error instanceof ExceptionBase
-            ? Result.fail<Food>(`[${error.code}]:${error.message}`)
-            : Result.fail<Food>(`Erreur inattendue. ${Food.constructor.name}`);
-      }
    }
 }

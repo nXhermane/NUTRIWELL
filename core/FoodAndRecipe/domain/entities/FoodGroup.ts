@@ -1,4 +1,4 @@
-import { Entity, EmptyStringError, Guard, GenerateUniqueId, Result, ExceptionBase } from "@shared";
+import { Entity, EmptyStringError, Guard, Result, ExceptionBase, AggregateID } from "@shared";
 
 export interface IFoodGroup {
    code: string;
@@ -34,9 +34,8 @@ export class FoodGroup extends Entity<IFoodGroup> {
       this._isValid = true;
    }
 
-   static create(createFoodGroupProps: IFoodGroup, generateUnitqueId: GenerateUniqueId): Result<FoodGroup> {
+   static create(createFoodGroupProps: IFoodGroup, id: AggregateID): Result<FoodGroup> {
       try {
-         const id = generateUnitqueId.generate().toValue();
          const foodGroup = new FoodGroup({ id, props: createFoodGroupProps });
 
          return Result.ok<FoodGroup>(foodGroup);

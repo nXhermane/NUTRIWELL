@@ -4,8 +4,5 @@
   "description": "C'est l'adapter du core a l'app mobile react-native du projet nutriwell ",
   "main": "index.ts",
   "author": "nxhermane",
-  "peerDependencies": {
-    "expo-sqlite": "*"
-  },
   "license": "MIT"
 }

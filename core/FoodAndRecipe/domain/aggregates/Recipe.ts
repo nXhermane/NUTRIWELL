@@ -1,17 +1,6 @@
-import {
-   AggregateRoot,
-   Guard,
-   ArgumentOutOfRangeException,
-   NegativeValueError,
-   EmptyStringError,
-   Result,
-   ExceptionBase,
-   BaseEntityProps,
-   GenerateUniqueId,
-} from "@shared";
+import { AggregateRoot, Guard, ArgumentOutOfRangeException, NegativeValueError, EmptyStringError, BaseEntityProps, AuthValueError } from "@shared";
 import { MealType, MealCategory, IMealType, IMealCategory } from "../entities";
 import { Ingredient, PreparationStep, FoodQuantity, IIngredient, IPreparationStep, IFoodQuantity } from "../value-objects";
-import { CreateRecipeProps } from "./createPropsType";
 
 export interface IRecipe {
    name: string;
@@ -57,28 +46,37 @@ export class Recipe extends AggregateRoot<IRecipe> {
    get author(): string {
       return this.props.author;
    }
+   get isSystemRecipe(): boolean {
+      return this.props.isSystemRecipe;
+   }
    setName(name: string) {
+      this.verifyRecipeCanBeUpdate();
       this.props.name = name;
       this.validate();
    }
 
    setCategory(category: MealCategory) {
+      this.verifyRecipeCanBeUpdate();
       this.props.category = category;
       this.validate();
    }
    setType(type: MealType) {
+      this.verifyRecipeCanBeUpdate();
       this.props.type = type;
       this.validate();
    }
    setAuthor(author: string) {
+      this.verifyRecipeCanBeUpdate();
       this.props.author = author;
       this.validate();
    }
    setCookingTime(cookingTime: number) {
+      this.verifyRecipeCanBeUpdate();
       this.props.cookingTime = cookingTime;
       this.validate();
    }
    setQuantity(foodQuantity: FoodQuantity) {
+      this.verifyRecipeCanBeUpdate();
       this.props.quantity = foodQuantity;
       this.validate();
    }
@@ -90,19 +88,28 @@ export class Recipe extends AggregateRoot<IRecipe> {
       return totalPrepTime;
    }
    addPreparationStep(step: PreparationStep): void {
+      this.verifyRecipeCanBeUpdate();
       this.props.preparationMethod.push(step);
       this.validate();
    }
    addIngredient(ingredient: Ingredient): void {
+      this.verifyRecipeCanBeUpdate();
       this.props.ingredients.push(ingredient);
       this.validate();
    }
    addNameToTranslate(langCode: string, name: string) {
+      this.verifyRecipeCanBeUpdate();
       this.props.translate[langCode] = name;
       this.validate();
    }
-
+   /**
+    * @description: A user of app can't update a system recipe.
+    */
+   verifyRecipeCanBeUpdate(): void {
+      if (this.props.isSystemRecipe) throw new AuthValueError("Impossible to modify a sytem recipe. Clone it to make a change.");
+   }
    removeIngredient(ingredient: Ingredient): void {
+      this.verifyRecipeCanBeUpdate();
       const index = this.props.ingredients.findIndex((ing: Ingredient) => ing.foodId === ingredient.foodId);
       if (index !== -1) {
          this.props.ingredients.splice(index, 1);
@@ -110,6 +117,7 @@ export class Recipe extends AggregateRoot<IRecipe> {
       }
    }
    removePreparationStep(step: PreparationStep): void {
+      this.verifyRecipeCanBeUpdate();
       const index = this.props.preparationMethod.findIndex((prepStep: PreparationStep) => prepStep.stepNumber === step.stepNumber);
       if (index !== -1) {
          this.props.preparationMethod.splice(index, 1);
@@ -124,20 +132,5 @@ export class Recipe extends AggregateRoot<IRecipe> {
 
       if (Guard.isEmpty(this.props.name).succeeded) throw new EmptyStringError("The recipe name must be empty.");
       this._isValid = true;
-   }
-   //TODO: Modifier le factory pour donner plus de sens a cette methode create : Prends juste le constructeur et ne t'embete pas avec Ca
-   static async create(createRecipeProps: CreateRecipeProps, generateUniqueId: GenerateUniqueId): Promise<Result<Recipe>> {
-      try {
-         const id = generateUniqueId.generate().toValue();
-         const recipe = new Recipe({
-            id,
-            props: createRecipeProps,
-         });
-         return Result.ok<Recipe>(recipe);
-      } catch (error) {
-         return error instanceof ExceptionBase
-            ? Result.fail<Recipe>(`[${error.code}]:${error.message}`)
-            : Result.fail<Recipe>(`Erreur inattendue. ${Recipe.constructor.name}`);
-      }
    }
 }

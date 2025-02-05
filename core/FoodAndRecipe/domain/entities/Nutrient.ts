@@ -1,5 +1,15 @@
-
-import { EmptyStringError, Entity, ExceptionBase, GenerateUniqueId, Guard, MeasureUnit, NegativeValueError, NutrientCode, NutrientTagname, Result } from "@shared";
+import {
+   AggregateID,
+   EmptyStringError,
+   Entity,
+   ExceptionBase,
+   Guard,
+   MeasureUnit,
+   NegativeValueError,
+   NutrientCode,
+   NutrientTagname,
+   Result,
+} from "@shared";
 import { CreateNutrientProps } from "./createPropsType";
 
 export interface INutrient {
@@ -54,9 +64,8 @@ export class Nutrient extends Entity<INutrient> {
       this._isValid = true;
    }
 
-   static create(createNutrientProps: CreateNutrientProps, generateUnitqueId: GenerateUniqueId): Result<Nutrient> {
+   static create(createNutrientProps: CreateNutrientProps, id: AggregateID): Result<Nutrient> {
       try {
-         const id = generateUnitqueId.generate().toValue();
          const unit = MeasureUnit.create(createNutrientProps.unit);
          const code = NutrientCode.create(createNutrientProps.code);
          const tagname = NutrientTagname.create(createNutrientProps.tagname);
