@@ -125,6 +125,14 @@ export abstract class Entity<EntityProps extends { [key: string]: any }> {
    get isDeleted(): boolean {
       return this._isDeleted;
    }
+   /**
+    * @method created Called after when a Entity is created
+    * @description In this method you are able to notify a system by domainEvent
+    */
+   public created(): void {}
+   /**
+    * @method delete Called Before paste entity to repo delete method
+    */
    public delete(): void {
       this._isDeleted = true;
    }

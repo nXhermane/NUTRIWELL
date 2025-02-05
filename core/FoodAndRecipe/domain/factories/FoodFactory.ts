@@ -12,6 +12,7 @@ export interface FoodFactoryDependencies {
    nutrientRepo: NutrientRepository;
    foodGroupRepo: FoodGroupRepository;
 }
+
 export class FoodFactory implements Factory<CreateFoodProps, Food> {
    constructor(private dependencies: FoodFactoryDependencies) {}
    async create(props: CreateFoodProps): Promise<Result<Food>> {

@@ -1,0 +1,17 @@
+import { AggregateID, ExceptionBase, left, Result, right, UseCase } from "@shared";
+import { GetAllFoodIdRequest } from "./GetAllFoodIdRequest";
+import { GetAllFoodIdResponse } from "./GetAllFoodIdResponse";
+import { FoodRepository } from "../../../../infrastructure";
+
+export class GetAllFoodIdUseCase implements UseCase<GetAllFoodIdRequest, GetAllFoodIdResponse> {
+   constructor(private readonly foodRepo: FoodRepository) {}
+   async execute(request: GetAllFoodIdRequest): Promise<GetAllFoodIdResponse> {
+      try {
+         const foodIds = await this.foodRepo.getAllId();
+         return right(Result.ok<AggregateID[]>(foodIds));
+      } catch (error) {
+         if (error instanceof ExceptionBase) return left(Result.fail<ExceptionBase>(`[${error.code}]:${error.message}`));
+         return left(Result.fail<any>(`Unexpected Error : ${error}`));
+      }
+   }
+}
