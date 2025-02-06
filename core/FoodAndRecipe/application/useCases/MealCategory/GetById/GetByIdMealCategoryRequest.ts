@@ -1,5 +1,5 @@
 import { AggregateID } from "@shared";
 
-export type GetFoodByIdRequest = {
+export type GetByIdMealCategoryRequest = {
    id: AggregateID;
 };
