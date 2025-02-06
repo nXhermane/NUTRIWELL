@@ -3,8 +3,8 @@ import {
    AuthValueError,
    EmptyStringError,
    Entity,
-   ExceptionBase,
    Guard,
+   handleError,
    MeasureUnit,
    NegativeValueError,
    NutrientCode,
@@ -101,9 +101,7 @@ export class Nutrient extends Entity<INutrient> {
          });
          return Result.ok<Nutrient>(nutrient);
       } catch (error) {
-         return error instanceof ExceptionBase
-            ? Result.fail<Nutrient>(`[${error.code}]:${error.message}`)
-            : Result.fail<Nutrient>(`Erreur inattendue. ${Nutrient.constructor.name}`);
+         return handleError(error);
       }
    }
 }

@@ -1,6 +1,6 @@
 import { ValueObject } from "../../common";
 import { Guard, Result } from "../../../core";
-import { ArgumentNotProvidedException, ArgumentInvalidException, ExceptionBase } from "../../../exceptions";
+import { ArgumentNotProvidedException, ArgumentInvalidException, handleError } from "../../../exceptions";
 import { DomainDate } from "./Date";
 
 export interface IDateframe {
@@ -18,7 +18,7 @@ export class Dateframe extends ValueObject<IDateframe> {
    }
 
    get isExpire(): boolean {
-      const date = new DomainDate()
+      const date = new DomainDate();
       return this.props.end.isAfter(date);
    }
 
@@ -27,9 +27,7 @@ export class Dateframe extends ValueObject<IDateframe> {
          const dateframe = new Dateframe(props);
          return Result.ok<Dateframe>(dateframe);
       } catch (e: any) {
-         return e instanceof ExceptionBase
-            ? Result.fail<Dateframe>(`[${e.code}]:${e.message}`)
-            : Result.fail<Dateframe>(`Unexpected Error. ${Dateframe?.constructor.name}`);
+         return handleError(e);
       }
    }
 }

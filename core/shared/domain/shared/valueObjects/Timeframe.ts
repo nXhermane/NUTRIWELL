@@ -1,7 +1,7 @@
 import { ValueObject } from "./../../common";
 import { Guard, Result } from "./../../../core";
-import { ArgumentNotProvidedException, ArgumentInvalidException, ExceptionBase } from "../../../exceptions";
-import { DomainDate } from "./Date";
+import { ArgumentNotProvidedException, ArgumentInvalidException, handleError } from "../../../exceptions";
+
 import { Time } from "./Time";
 
 export interface ITimeframe {
@@ -20,7 +20,7 @@ export class Timeframe extends ValueObject<ITimeframe> {
    }
 
    get isExpire(): boolean {
-      const time = new Time()
+      const time = new Time();
       return this.props.end.isAfter(time);
    }
 
@@ -29,9 +29,7 @@ export class Timeframe extends ValueObject<ITimeframe> {
          const timeframe = new Timeframe(props);
          return Result.ok<Timeframe>(timeframe);
       } catch (e: any) {
-         return e instanceof ExceptionBase
-            ? Result.fail<Timeframe>(`[${e.code}]:${e.message}`)
-            : Result.fail<Timeframe>(`Unexpected Error. ${Timeframe?.constructor.name}`);
+         return handleError(e);
       }
    }
 }

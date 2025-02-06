@@ -1,5 +1,5 @@
 import { Guard, Result } from "./../../../core";
-import { EmptyStringError, ExceptionBase } from "./../../../exceptions";
+import { EmptyStringError, handleError } from "./../../../exceptions";
 import { ValueObject, DomainPrimitive } from "./../../common";
 
 export class NutrientTagname extends ValueObject<string> {
@@ -14,9 +14,7 @@ export class NutrientTagname extends ValueObject<string> {
          const nutrientTagname = new NutrientTagname({ _value: tagname });
          return Result.ok<NutrientTagname>(nutrientTagname);
       } catch (error) {
-         return error instanceof ExceptionBase
-            ? Result.fail<NutrientTagname>(`[${error.code}]:${error.message}`)
-            : Result.fail<NutrientTagname>(`Erreur inattendue. ${NutrientTagname?.constructor.name}`);
+         return handleError(error);
       }
    }
 }

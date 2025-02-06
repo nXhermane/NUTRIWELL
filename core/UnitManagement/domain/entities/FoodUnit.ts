@@ -4,8 +4,8 @@ import {
    AuthValueError,
    EmptyStringError,
    Entity,
-   ExceptionBase,
    Guard,
+   handleError,
    NegativeValueError,
    Result,
 } from "@shared";
@@ -91,9 +91,7 @@ export class FoodUnit extends Entity<IFoodUnit> {
          const foodUnit = new FoodUnit({ id, props });
          return Result.ok<FoodUnit>(foodUnit);
       } catch (error) {
-         return error instanceof ExceptionBase
-            ? Result.fail<FoodUnit>(`[${error.code}]:${error.message}`)
-            : Result.fail<FoodUnit>(`Erreur inattendue. ${FoodUnit.constructor.name}`);
+         return handleError(error);
       }
    }
    override delete(): void {

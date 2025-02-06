@@ -1,4 +1,4 @@
-import { AggregateID, ExceptionBase, GenerateUniqueId, left, Result, right, UseCase } from "@shared";
+import { AggregateID, GenerateUniqueId, handleError, left, Result, right, UseCase } from "@shared";
 import { CreateFoodGroupRequest } from "./CreateFoodGroupRequest";
 import { CreateFoodGroupResponse } from "./CreateFoodGroupResponse";
 import { FoodGroupRepository } from "../../../../infrastructure";
@@ -14,8 +14,7 @@ export class CreateFoodGroupUseCase implements UseCase<CreateFoodGroupRequest, C
          await this.foodGroupRepo.save(foodGroupResult.val);
          return right(Result.ok<{ id: AggregateID }>(foodGroupResult.val));
       } catch (error) {
-         if (error instanceof ExceptionBase) return left(Result.fail<ExceptionBase>(`[${error.code}]:${error.message}`));
-         return left(Result.fail<any>(`Unexpected Error : ${error}`));
+         return left(handleError(error));
       }
    }
 }

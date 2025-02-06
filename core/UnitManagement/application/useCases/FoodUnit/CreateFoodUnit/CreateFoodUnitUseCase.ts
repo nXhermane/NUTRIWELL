@@ -1,4 +1,4 @@
-import { ExceptionBase, GenerateUniqueId, left, Result, right, UseCase } from "@shared";
+import { GenerateUniqueId, handleError, left, Result, right, UseCase } from "@shared";
 import { CreateFoodUnitRequest } from "./CreateFoodUnitRequest";
 import { CreateFoodUnitResponse } from "./CreateFoodUnitResponse";
 import { FoodUnitRepository } from "../../../../infrastructure";
@@ -14,8 +14,7 @@ export class CreateFoodUnitUseCase implements UseCase<CreateFoodUnitRequest, Cre
          await this.foodUnitRepo.save(foodUnit.val);
          return right(Result.ok());
       } catch (error) {
-         if (error instanceof ExceptionBase) return left(Result.fail<ExceptionBase>(`[${error.code}]:${error.message}`));
-         return left(Result.fail<any>(`Unexpected Error : ${error}`));
+         return left(handleError(error));
       }
    }
 }

@@ -1,4 +1,4 @@
-import { AggregateID, ApplicationMapper, ExceptionBase, Guard, Result, left, right, UseCase } from "@shared";
+import { AggregateID, ApplicationMapper, ExceptionBase, Guard, Result, left, right, UseCase, handleError } from "@shared";
 import { GetFoodUnitByIdOrSymbolRequest } from "./GetFoodUnitByIdOrSymbolRequest";
 import { GetFoodUnitByIdOrSymbolResponse } from "./GetFoodUnitByIdOrSymbolResponse";
 import { FoodUnitRepository } from "../../../../infrastructure";
@@ -15,8 +15,7 @@ export class GetFoodUnitByIdOrSymbolUseCase implements UseCase<GetFoodUnitByIdOr
          const foodUnitDto = this.mapper.toResponse(foodUnit);
          return right(Result.ok<FoodUnitDto>(foodUnitDto));
       } catch (error) {
-         if (error instanceof ExceptionBase) return left(Result.fail<ExceptionBase>(`[${error.code}]:${error.message}`));
-         return left(Result.fail<any>(`Unexpected Error : ${error}`));
+         return left(handleError(error));
       }
    }
 }

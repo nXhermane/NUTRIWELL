@@ -1,4 +1,4 @@
-import { AggregateID, AuthValueError, EmptyStringError, Entity, ExceptionBase, Guard, Result } from "@shared";
+import { AggregateID, AuthValueError, EmptyStringError, Entity, Guard, handleError, Result } from "@shared";
 
 export interface IMealCategory {
    name: string;
@@ -54,9 +54,7 @@ export class MealCategory extends Entity<IMealCategory> {
          const mealCategory = new MealCategory({ props, id });
          return Result.ok<MealCategory>(mealCategory);
       } catch (error) {
-         return error instanceof ExceptionBase
-            ? Result.fail<MealCategory>(`[${error.code}]:${error.message}`)
-            : Result.fail<MealCategory>(`Erreur inattendue. ${MealCategory.constructor.name}`);
+         return handleError(error);
       }
    }
 }

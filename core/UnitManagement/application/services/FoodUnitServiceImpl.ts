@@ -1,5 +1,5 @@
 import { AppServiceResponse, Message, AggregateID, UseCase } from "@shared";
-import { FoodUnitDto } from "../dtos";
+import { ConvertedValueDto, FoodUnitDto } from "../dtos";
 import {
    CreateFoodUnitRequest,
    GetFoodUnitByIdOrSymbolRequest,
@@ -15,7 +15,6 @@ import {
    ConvertFoodUnitResponse,
 } from "../useCases";
 import { FoodUnitService } from "./interfaces";
-import { ConvertedValueDto } from "../../domain";
 
 export interface FoodUnitServiceDependencies {
    createUC: UseCase<CreateFoodUnitRequest, CreateFoodUnitResponse>;

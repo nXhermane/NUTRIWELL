@@ -1,13 +1,13 @@
-import { CDate } from "./Date";
-import { Result } from "./../../core";
-import { ExceptionBase } from "./../../exceptions";
-export class Birthday extends CDate {
+import { DomainDate } from "./Date";
+import { Result } from "./../../../core";
+import { handleError } from "./../../../exceptions";
+export class Birthday extends DomainDate {
    constructor(date: string) {
       super(date);
    }
    get age(): number {
       const today = new Date();
-      const birthDate = new Date(this.props.value);
+      const birthDate = new Date(this.props._value);
 
       let age = today.getFullYear() - birthDate.getFullYear();
       const monthDiff = today.getMonth() - birthDate.getMonth();
@@ -23,16 +23,15 @@ export class Birthday extends CDate {
       return super.isDateToday();
    }
 
-   get birthday(): string {
-      return super.date;
+   toString(): string {
+      return super.toString();
    }
    static create(date: string): Result<Birthday> {
       try {
          const birthday = new Birthday(date);
          return Result.ok<Birthday>(birthday);
       } catch (e: any) {
-         if (e instanceof ExceptionBase) return Result.fail<Birthday>(`[${e.code}:${e.message}]`);
-         return Result.fail<Birthday>(`Erreur inattendue.${Birthday.constructor.name}`);
+         return handleError(e);
       }
    }
 }

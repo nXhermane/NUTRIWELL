@@ -1,6 +1,6 @@
-import { ValueObject } from "./../ValueObject";
-import { Guard, Result } from "../../core";
-import { ArgumentNotProvidedException } from "./../../exceptions";
+import { ValueObject } from "./../../common";
+import { Guard, Result } from "../../../core";
+import { ArgumentNotProvidedException, handleError } from "./../../../exceptions";
 export interface IAddress {
    street?: string;
    city?: string;
@@ -47,8 +47,7 @@ export class Address extends ValueObject<IAddress> {
          const address = new Address(props);
          return Result.ok<Address>(address);
       } catch (e: any) {
-         if (e instanceof ArgumentNotProvidedException) return Result.fail<Address>(`[${e.code}]:${e.message}`);
-         return Result.fail<Address>("Erreur inattendue.");
+         return handleError(e);
       }
    }
 }

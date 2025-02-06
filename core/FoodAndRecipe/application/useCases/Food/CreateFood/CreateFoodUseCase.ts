@@ -1,4 +1,4 @@
-import { AggregateID, ExceptionBase, Factory, left, Result, right, UseCase } from "@shared";
+import { AggregateID, Factory, handleError, left, Result, right, UseCase } from "@shared";
 import { CreateFoodRequest } from "./CreateFoodRequeset";
 import { CreateFoodResponse } from "./CreateFoodResponse";
 import { CreateFoodProps } from "../../../../domain/factories";
@@ -15,8 +15,6 @@ export class CreateFoodUseCase implements UseCase<CreateFoodRequest, CreateFoodR
          await this.foodRepo.save(foodResult.val);
          return right(Result.ok<{ id: AggregateID }>({ id: foodResult.val.id }));
       } catch (error) {
-         if (error instanceof ExceptionBase) return left(Result.fail<ExceptionBase>(`[${error.code}]:${error.message}`));
-         return left(Result.fail<any>(`Unexpected Error : ${error}`));
-      }
+        return left(handleError(error))   }
    }
 }

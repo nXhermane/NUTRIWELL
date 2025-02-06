@@ -1,6 +1,6 @@
 import { ValueObject } from "./../../common";
 import { Guard, Result } from "./../../../core";
-import { ArgumentNotProvidedException, ExceptionBase } from "./../../../exceptions";
+import { ArgumentNotProvidedException, ExceptionBase, handleError } from "./../../../exceptions";
 // TODO: Il faut que je prend en charge la validation par injection d'un service qui va essayer de valider le PhoneNumber
 export class PhoneNumber extends ValueObject<string> {
    constructor(numero: string) {
@@ -39,9 +39,7 @@ export class PhoneNumber extends ValueObject<string> {
          const tel = new PhoneNumber(numero);
          return Result.ok<PhoneNumber>(tel);
       } catch (e: any) {
-         return e instanceof ExceptionBase
-            ? Result.fail<PhoneNumber>(`[${e.code}]:${e.message}`)
-            : Result.fail<PhoneNumber>(`Unexpected Error. ${PhoneNumber?.constructor.name}`);
+         return handleError(e);
       }
    }
 }

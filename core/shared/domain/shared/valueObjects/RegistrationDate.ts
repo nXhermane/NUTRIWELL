@@ -1,4 +1,4 @@
-import { ArgumentInvalidException, ExceptionBase } from "../../../exceptions";
+import { ArgumentInvalidException, handleError } from "../../../exceptions";
 import { DomainDate } from "./Date";
 import { Result } from "./../../../core";
 export class RegistrationDate extends DomainDate {
@@ -25,9 +25,7 @@ export class RegistrationDate extends DomainDate {
          const rDate = new RegistrationDate(date);
          return Result.ok<RegistrationDate>(rDate);
       } catch (e: any) {
-         return e instanceof ExceptionBase
-            ? Result.fail<RegistrationDate>(`[${e.code}]:${e.message}`)
-            : Result.fail<RegistrationDate>(`Unexpected Error. ${RegistrationDate?.constructor.name}`);
+         return handleError(e);
       }
    }
 }

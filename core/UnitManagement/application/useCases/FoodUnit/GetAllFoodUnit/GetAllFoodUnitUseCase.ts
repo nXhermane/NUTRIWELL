@@ -1,4 +1,4 @@
-import { ApplicationMapper, ExceptionBase, left, Result, right, UseCase } from "@shared";
+import { ApplicationMapper, handleError, left, Result, right, UseCase } from "@shared";
 import { GetAllFoodUnitRequest } from "./GetAllFoodUnitRequest";
 import { GetAllFoodUnitResponse } from "./GetAllFoodUnitResponse";
 import { FoodUnitRepository } from "../../../../infrastructure";
@@ -13,8 +13,7 @@ export class GetAllFoodUnitUseCase implements UseCase<GetAllFoodUnitRequest, Get
          const foodUnitDtos = foodUnits.map((foodUnit) => this.mapper.toResponse(foodUnit));
          return right(Result.ok<FoodUnitDto[]>(foodUnitDtos));
       } catch (error) {
-         if (error instanceof ExceptionBase) return left(Result.fail<ExceptionBase>(`[${error.code}]:${error.message}`));
-         return left(Result.fail<any>(`Unexpected Error : ${error}`));
+         return left(handleError(error));
       }
    }
 }

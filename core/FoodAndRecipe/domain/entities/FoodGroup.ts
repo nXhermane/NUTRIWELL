@@ -1,4 +1,4 @@
-import { Entity, EmptyStringError, Guard, Result, ExceptionBase, AggregateID, AuthValueError } from "@shared";
+import { Entity, EmptyStringError, Guard, Result, AggregateID, AuthValueError, handleError } from "@shared";
 
 export interface IFoodGroup {
    code: string;
@@ -64,9 +64,7 @@ export class FoodGroup extends Entity<IFoodGroup> {
 
          return Result.ok<FoodGroup>(foodGroup);
       } catch (error) {
-         return error instanceof ExceptionBase
-            ? Result.fail<FoodGroup>(`[${error.code}]:${error.message}`)
-            : Result.fail<FoodGroup>(`Erreur inattendue. ${FoodGroup.constructor.name}`);
+         return handleError(error);
       }
    }
 }

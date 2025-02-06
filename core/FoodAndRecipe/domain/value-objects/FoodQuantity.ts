@@ -1,4 +1,4 @@
-import { ValueObject, Result, ExceptionBase, NegativeValueError, MeasureUnit, Guard } from "@shared";
+import { ValueObject, Result, NegativeValueError, MeasureUnit, Guard, handleError } from "@shared";
 import { CreateFoodQuantityProps } from "./createPropsTypes";
 
 export interface IFoodQuantity {
@@ -32,9 +32,7 @@ export class FoodQuantity extends ValueObject<IFoodQuantity> {
          });
          return Result.ok<FoodQuantity>(quantity);
       } catch (error) {
-         return error instanceof ExceptionBase
-            ? Result.fail<FoodQuantity>(`[${error.code}]:${error.message}`)
-            : Result.fail<FoodQuantity>(`Erreur inattendue. ${FoodQuantity.constructor.name}`);
+         return handleError(error);
       }
    }
 }

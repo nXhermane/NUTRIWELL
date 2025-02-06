@@ -1,11 +1,11 @@
-import { AggregateID, ExceptionBase, Guard, left, Result, right, UseCase } from "@shared";
+import { AggregateID, Guard, handleError, left, Result, right, UseCase } from "@shared";
 import { ConvertFoodUnitRequest } from "./ConvertFoodUnitRequest";
 import { ConvertFoodUnitResponse } from "./ConvertFoodUnitResponse";
 import { FoodUnitRepository } from "../../../../infrastructure";
 import { ConvertedValueDto } from "../../../dtos";
 
 export class ConvertFoodUnitUseCase implements UseCase<ConvertFoodUnitRequest, ConvertFoodUnitResponse> {
-   constructor( private readonly foodUnitRepo: FoodUnitRepository) {}
+   constructor(private readonly foodUnitRepo: FoodUnitRepository) {}
    async execute(request: ConvertFoodUnitRequest): Promise<ConvertFoodUnitResponse> {
       try {
          const fromUnit = await this.foodUnitRepo.getById(request.fromUnitIdOrSymbol);
@@ -21,8 +21,7 @@ export class ConvertFoodUnitUseCase implements UseCase<ConvertFoodUnitRequest, C
             }),
          );
       } catch (error) {
-         if (error instanceof ExceptionBase) return left(Result.fail<ExceptionBase>(`[${error.code}]:${error.message}`));
-         return left(Result.fail<any>(`Unexpected Error : ${error}`));
+         return left(handleError(error));
       }
    }
 }

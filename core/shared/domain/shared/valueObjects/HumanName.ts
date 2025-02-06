@@ -1,6 +1,6 @@
 import { ValueObject } from "./../../common";
 import { Guard, Result } from "./../../../core";
-import { EmptyStringError, ExceptionBase } from "./../../../exceptions";
+import { EmptyStringError, handleError } from "./../../../exceptions";
 export class HumanName extends ValueObject<string> {
    constructor(nom: string) {
       super({ _value: nom });
@@ -35,9 +35,7 @@ export class HumanName extends ValueObject<string> {
          const name = new HumanName(nom);
          return Result.ok<HumanName>(name);
       } catch (e: any) {
-         return e instanceof ExceptionBase
-            ? Result.fail<HumanName>(`[${e.code}]:${e.message}`)
-            : Result.fail<HumanName>(`Unexpected Error. ${HumanName?.constructor.name}`);
+         return handleError(e);
       }
    }
 }

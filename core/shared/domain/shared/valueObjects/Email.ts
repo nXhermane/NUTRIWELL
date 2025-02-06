@@ -1,7 +1,7 @@
 import { ValueObject, ValueObjectProps } from "./../../common";
 import {
   InvalidArgumentFormatError,
-  ExceptionBase,
+  handleError,
 } from "./../../../exceptions";
 import { Result } from "./../../../core";
 export class Email extends ValueObject<string> {
@@ -23,10 +23,7 @@ export class Email extends ValueObject<string> {
       const email = new Email({ _value: value });
       return Result.ok<Email>(email);
     } catch (e: any) {
-      return e instanceof ExceptionBase
-        ? Result.fail<Email>(`[${e.code}]:${e.message}`)
-        : Result.fail<Email>(`Erreur inattendue. ${Email?.constructor.name}`);
-    }
+    return handleError(e)  }
   }
 
   getValue(): string {

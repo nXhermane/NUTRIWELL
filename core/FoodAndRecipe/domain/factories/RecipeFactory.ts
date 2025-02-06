@@ -1,4 +1,4 @@
-import { AggregateID, ExceptionBase, Factory, GenerateUniqueId, Guard, Result } from "@shared";
+import { AggregateID, Factory, GenerateUniqueId, Guard, handleError, Result } from "@shared";
 import { Recipe } from "../aggregates";
 import { CreateRecipeProps } from "./factoriesProps";
 import { FoodRepository, MealCategoryRepository, MealTypeRepository } from "../../infrastructure";
@@ -57,9 +57,7 @@ export class RecipeFactory implements Factory<CreateRecipeProps, Recipe> {
          });
          return Result.ok<Recipe>(recipe);
       } catch (error) {
-         return error instanceof ExceptionBase
-            ? Result.fail<Recipe>(`[${error.code}]:${error.message}`)
-            : Result.fail<Recipe>(`Erreur inattendue. ${Recipe.constructor.name}`);
+         return handleError(error);
       }
    }
 }

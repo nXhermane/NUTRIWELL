@@ -1,4 +1,4 @@
-import { ExceptionBase, left, Result, right, UseCase } from "@shared";
+import {  handleError, left, Result, right, UseCase } from "@shared";
 import { DeleteFoodUnitRequest } from "./DeleteFoodUnitRequest";
 import { DeleteFoodUnitResponse } from "./DeleteFoodUnitResponse";
 import { FoodUnitRepository } from "../../../../infrastructure";
@@ -12,8 +12,7 @@ export class DeleteFoodUnitUseCase implements UseCase<DeleteFoodUnitRequest, Del
          await this.foodUnitRepo.delete(foodUnit.id);
          return right(Result.ok());
       } catch (error) {
-         if (error instanceof ExceptionBase) return left(Result.fail<ExceptionBase>(`[${error.code}]:${error.message}`));
-         return left(Result.fail<any>(`Unexpected Error : ${error}`));
+         return left(handleError(error));
       }
    }
 }

@@ -1,4 +1,4 @@
-import { ValueObject, InvalidReference, Guard, ExceptionBase, Result } from "@shared";
+import { ValueObject, InvalidReference, Guard, Result, handleError } from "@shared";
 import { AggregateID, EmptyStringError } from "@shared";
 import { FoodQuantity, IFoodQuantity } from "./FoodQuantity";
 
@@ -44,9 +44,7 @@ export class Ingredient extends ValueObject<IIngredient> {
          if (validateResult.isFailure) return Result.fail<Ingredient>(`[Error]: ${(validateResult.err as any)?.toJSON() || validateResult.err}`);
          return Result.ok<Ingredient>(ingredient);
       } catch (error) {
-         return error instanceof ExceptionBase
-            ? Result.fail<Ingredient>(`[${error.code}]:${error.message}`)
-            : Result.fail<Ingredient>(`Erreur inattendue. ${Ingredient.constructor.name}`);
+         return handleError(error);
       }
    }
 }

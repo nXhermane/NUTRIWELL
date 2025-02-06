@@ -7,8 +7,8 @@ import {
    GetAllFoodUnitRequest,
    GetFoodUnitByIdOrSymbolRequest,
 } from "../../useCases";
-import { FoodUnitDto } from "../../dtos";
-import { ConvertedValueDto } from "../../../domain";
+import { ConvertedValueDto, FoodUnitDto } from "../../dtos";
+
 
 export interface FoodUnitService {
    create(req: CreateFoodUnitRequest): Promise<AppServiceResponse<boolean> | Message>;

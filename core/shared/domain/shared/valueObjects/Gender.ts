@@ -1,5 +1,5 @@
 import { ValueObject } from "./../../common";
-import { ArgumentInvalidException, ExceptionBase } from "../../../exceptions";
+import { ArgumentInvalidException, handleError } from "../../../exceptions";
 import { Result } from "./../../../core";
 export enum Sexe {
    MALE = "M",
@@ -49,9 +49,6 @@ export class Gender extends ValueObject<Sexe> {
          const gender = new Gender(sexe as Sexe);
          return Result.ok<Gender>(gender);
       } catch (e: any) {
-         return e instanceof ExceptionBase
-            ? Result.fail<Gender>(`[${e.code}]:${e.message}`)
-            : Result.fail<Gender>(`Erreur inattendue. ${Gender?.constructor.name}`);
-      }
+       return handleError(e)     }
    }
 }
