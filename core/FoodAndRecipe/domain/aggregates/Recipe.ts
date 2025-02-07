@@ -133,4 +133,8 @@ export class Recipe extends AggregateRoot<IRecipe> {
       if (Guard.isEmpty(this.props.name).succeeded) throw new EmptyStringError("The recipe name must be empty.");
       this._isValid = true;
    }
+   override delete(): void {
+      this.verifyRecipeCanBeUpdate();
+      super.delete();
+   }
 }

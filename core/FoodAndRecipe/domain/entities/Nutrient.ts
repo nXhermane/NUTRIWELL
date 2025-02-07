@@ -79,7 +79,10 @@ export class Nutrient extends Entity<INutrient> {
       }
       this._isValid = true;
    }
-
+   override delete() {
+      this.verifyIfNutrientCanBeUpdate();
+      super.delete();
+   }
    static create(createNutrientProps: CreateNutrientProps, id: AggregateID): Result<Nutrient> {
       try {
          const unit = MeasureUnit.create(createNutrientProps.unit);

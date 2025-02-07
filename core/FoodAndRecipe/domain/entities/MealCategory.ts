@@ -48,7 +48,10 @@ export class MealCategory extends Entity<IMealCategory> {
    private verifyIfCategoryCanBeUpdate() {
       if (this.props.isSystemCategory) throw new AuthValueError("Impossible to modify a system MealCategory. Clone it to make a change.");
    }
-
+   override delete() {
+      this.verifyIfCategoryCanBeUpdate();
+      super.delete();
+   }
    static create(props: IMealCategory, id: AggregateID): Result<MealCategory> {
       try {
          const mealCategory = new MealCategory({ props, id });

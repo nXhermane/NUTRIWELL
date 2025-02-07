@@ -47,7 +47,10 @@ export class MealType extends Entity<IMealType> {
    private verifyIfTypeCanBeUpdate() {
       if (this.props.isSystemType) throw new AuthValueError("Impossible to modify a system MealType. Clone it to make a change.");
    }
-
+   override delete() {
+      this.verifyIfTypeCanBeUpdate()
+      super.delete()
+   }
    static create(props: IMealType, id: AggregateID): Result<MealType> {
       try {
          const mealType = new MealType({ props, id });

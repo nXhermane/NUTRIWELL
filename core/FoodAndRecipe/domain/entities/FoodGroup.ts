@@ -57,7 +57,10 @@ export class FoodGroup extends Entity<IFoodGroup> {
       if (Guard.isEmpty(this.props.name).succeeded) throw new EmptyStringError("The name of foodGroup must be provided and can't be empty.");
       this._isValid = true;
    }
-
+   override delete() {
+      this.verifyIfGroupCanBeUpdate();
+      super.delete();
+   }
    static create(createFoodGroupProps: IFoodGroup, id: AggregateID): Result<FoodGroup> {
       try {
          const foodGroup = new FoodGroup({ id, props: createFoodGroupProps });

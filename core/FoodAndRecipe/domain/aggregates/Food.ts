@@ -134,4 +134,8 @@ export class Food extends AggregateRoot<IFood> {
          return nutrient.unpack().nutrientId === newNutrient.unpack().nutrientId;
       });
    }
+   override delete(): void {
+      this.verifyIfFoodCanBeUpdate();
+      super.delete();
+   }
 }
