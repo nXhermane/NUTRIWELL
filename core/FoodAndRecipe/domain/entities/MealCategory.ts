@@ -29,12 +29,12 @@ export class MealCategory extends Entity<IMealCategory> {
          throw new EmptyStringError("The name of mealCategory can't be empty. Please give a correct name to MealCategory");
       this._isValid = true;
    }
-   setName(name: string) {
+   changeName(name: string) {
       this.verifyIfCategoryCanBeUpdate();
       this.props.name = name;
       this.validate();
    }
-   setCode(code: string) {
+   changeCode(code: string) {
       this.verifyIfCategoryCanBeUpdate();
       this.props.code = code;
       this.validate();

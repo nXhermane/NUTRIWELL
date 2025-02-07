@@ -45,23 +45,23 @@ export class Nutrient extends Entity<INutrient> {
    get isSystemNutrient(): boolean {
       return this.props.isSystemNutrient;
    }
-   setName(name: string) {
+   changeName(name: string) {
       this.verifyIfNutrientCanBeUpdate();
       this.props.name = name;
    }
-   setCode(code: NutrientCode) {
+   changeCode(code: NutrientCode) {
       this.verifyIfNutrientCanBeUpdate();
       this.props.code = code;
    }
-   setTagname(tagname: NutrientTagname) {
+   changeTagname(tagname: NutrientTagname) {
       this.verifyIfNutrientCanBeUpdate();
       this.props.tagname = tagname;
    }
-   setUnit(unit: MeasureUnit) {
+   changeUnit(unit: MeasureUnit) {
       this.verifyIfNutrientCanBeUpdate();
       this.props.unit = unit;
    }
-   setDecimals(decimals: number) {
+   changeDecimals(decimals: number) {
       this.verifyIfNutrientCanBeUpdate();
       this.props.decimals = decimals;
       this.validate();

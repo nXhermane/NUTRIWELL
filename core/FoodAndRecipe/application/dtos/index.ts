@@ -8,3 +8,4 @@ export * from "./NutrientDto";
 export * from "./PreparationStepDto";
 export * from "./QuantityDto";
 export * from "./RecipeDto";
+export * from "./RecipeNutritionalValueDto";

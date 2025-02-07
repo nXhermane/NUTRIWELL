@@ -43,32 +43,32 @@ export class Food extends AggregateRoot<IFood> {
    get isSystemFood(): boolean {
       return this.props.isSytemFood;
    }
-   setName(name: string) {
+   changeName(name: string) {
       this.verifyIfFoodCanBeUpdate();
       this.props.name = name;
       this.validate();
    }
-   setCode(code: string) {
+   changeCode(code: string) {
       this.verifyIfFoodCanBeUpdate();
       this.props.code = code;
       this.validate();
    }
-   setOrigin(origin: string) {
+   changeOrigin(origin: string) {
       this.verifyIfFoodCanBeUpdate();
       this.props.origin = origin;
       this.validate();
    }
-   setSource(source: string) {
+   changeSource(source: string) {
       this.verifyIfFoodCanBeUpdate();
       this.props.source = source;
       this.validate();
    }
-   setQuantity(quantity: FoodQuantity) {
+   changeQuantity(quantity: FoodQuantity) {
       this.verifyIfFoodCanBeUpdate();
       this.props.quantity = quantity;
       this.validate();
    }
-   setGroup(group: FoodGroup) {
+   changeGroup(group: FoodGroup) {
       this.verifyIfFoodCanBeUpdate();
       this.props.group = group;
       this.validate();
@@ -92,18 +92,14 @@ export class Food extends AggregateRoot<IFood> {
    }
    validate(): void {
       this._isValid = false;
-      if (Guard.isEmpty(this.props.code).succeeded) {
-         throw new EmptyStringError("The food code can't be empty.");
-      }
-      if (Guard.isEmpty(this.props.name).succeeded) {
-         throw new EmptyStringError("The food name can't be empty.Please enter a valid food name.");
-      }
-      if (Guard.isEmpty(this.props.origin).succeeded) {
-         throw new EmptyStringError("The food origin can't be empty.");
-      }
-      if (!this.validateNutrientIsUnique(this.props.nutrients)) {
-         throw new DuplicateValueError("The nutrient can't be duplicated.");
-      }
+      if (Guard.isEmpty(this.props.code).succeeded) throw new EmptyStringError("The food code can't be empty.");
+
+      if (Guard.isEmpty(this.props.name).succeeded) throw new EmptyStringError("The food name can't be empty.Please enter a valid food name.");
+
+      if (Guard.isEmpty(this.props.origin).succeeded) throw new EmptyStringError("The food origin can't be empty.");
+
+      if (!this.validateNutrientIsUnique(this.props.nutrients)) throw new DuplicateValueError("The nutrient can't be duplicated.");
+
       for (const [langCode, name] of Object.entries(this.props.translate)) {
          if (Guard.isEmpty(langCode).succeeded) throw new EmptyStringError("The translate language code can't not be empty.");
          if (Guard.isEmpty(name).succeeded) throw new EmptyStringError("The name of food can't be empty.");

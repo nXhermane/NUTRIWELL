@@ -24,17 +24,17 @@ export class FoodGroup extends Entity<IFoodGroup> {
    get translate(): { [lang: string]: string } {
       return this.props.translate;
    }
-   setName(value: string) {
+   changeName(value: string) {
       this.verifyIfGroupCanBeUpdate();
       this.props.name = value;
       this.validate();
    }
-   setCode(code: string) {
+   changeCode(code: string) {
       this.verifyIfGroupCanBeUpdate();
       this.props.code = code;
       this.validate();
    }
-   setDescription(desc: string) {
+   changeDescription(desc: string) {
       this.verifyIfGroupCanBeUpdate();
       this.props.description = desc;
    }

@@ -49,33 +49,33 @@ export class Recipe extends AggregateRoot<IRecipe> {
    get isSystemRecipe(): boolean {
       return this.props.isSystemRecipe;
    }
-   setName(name: string) {
+   changeName(name: string) {
       this.verifyRecipeCanBeUpdate();
       this.props.name = name;
       this.validate();
    }
 
-   setCategory(category: MealCategory) {
+   changeCategory(category: MealCategory) {
       this.verifyRecipeCanBeUpdate();
       this.props.category = category;
       this.validate();
    }
-   setType(type: MealType) {
+   changeType(type: MealType) {
       this.verifyRecipeCanBeUpdate();
       this.props.type = type;
       this.validate();
    }
-   setAuthor(author: string) {
+   changeAuthor(author: string) {
       this.verifyRecipeCanBeUpdate();
       this.props.author = author;
       this.validate();
    }
-   setCookingTime(cookingTime: number) {
+   changeCookingTime(cookingTime: number) {
       this.verifyRecipeCanBeUpdate();
       this.props.cookingTime = cookingTime;
       this.validate();
    }
-   setQuantity(foodQuantity: FoodQuantity) {
+   changeQuantity(foodQuantity: FoodQuantity) {
       this.verifyRecipeCanBeUpdate();
       this.props.quantity = foodQuantity;
       this.validate();
