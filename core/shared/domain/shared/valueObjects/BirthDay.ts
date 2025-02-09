@@ -5,7 +5,7 @@ export class Birthday extends DomainDate {
    constructor(date: string) {
       super(date);
    }
-   get age(): number {
+   getAge(): number {
       const today = new Date();
       const birthDate = new Date(this.props._value);
 

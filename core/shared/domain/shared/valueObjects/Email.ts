@@ -26,7 +26,7 @@ export class Email extends ValueObject<string> {
     return handleError(e)  }
   }
 
-  getValue(): string {
+  toString(): string {
     return this.props._value;
   }
 }

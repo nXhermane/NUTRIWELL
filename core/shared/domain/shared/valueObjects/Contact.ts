@@ -7,7 +7,10 @@ export interface ContactProps {
    email: Email;
    phoneNumber: PhoneNumber;
 }
-
+export interface CreateContactProps {
+   email: string;
+   phoneNumber: string;
+}
 export class Contact extends ValueObject<ContactProps> {
    constructor(props: ContactProps) {
       super(props);
@@ -17,20 +20,26 @@ export class Contact extends ValueObject<ContactProps> {
       // Validation des propriétés de contact si nécessaire
    }
 
-   get email(): Email {
-      return this.props.email;
+   get email(): string {
+      return this.props.email.unpack();
    }
 
-   get phoneNumber(): PhoneNumber {
-      return this.props.phoneNumber;
+   get phoneNumber(): string {
+      return this.props.phoneNumber.unpack();
    }
 
    public toString(): string {
-      return `Email: ${this.email}, Phone: ${this.phoneNumber}`;
+      return `Email: ${this.props.email.toString()}, Phone: ${this.props.phoneNumber.toString()}`;
    }
-   static create(props: ContactProps): Result<Contact> {
+   static create(props: CreateContactProps): Result<Contact> {
       try {
-         const contact = new Contact(props);
+         const email = Email.create(props.email);
+         const phoneNumber = PhoneNumber.create(props.phoneNumber);
+         const combinedResult = Result.combine([email, phoneNumber]);
+         if (combinedResult.isFailure) {
+            return Result.fail<Contact>(String(combinedResult.err));
+         }
+         const contact = new Contact({ email: email.val, phoneNumber: phoneNumber.val });
          return Result.ok<Contact>(contact);
       } catch (e: any) {
          return handleError(e);
