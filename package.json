@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "workspaces": {
     "packages": [
-      "core",
+      "core/",
       "adapter/react-native",
       "adapter/server",
       "ui/app",

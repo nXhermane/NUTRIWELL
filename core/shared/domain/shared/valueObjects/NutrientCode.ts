@@ -14,7 +14,7 @@ export class NutrientCode extends ValueObject<string> {
          const nutrientCode = new NutrientCode({ _value: code });
          return Result.ok<NutrientCode>(nutrientCode);
       } catch (error) {
-         return handleError(e);
+         return handleError(error);
       }
    }
 }

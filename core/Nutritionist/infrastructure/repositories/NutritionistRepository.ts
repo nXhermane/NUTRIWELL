@@ -9,4 +9,5 @@ export interface NutritionistRepository extends Repository<Nutritionist> {
     */
    checkIfNutritionistWithEmailExist(email: Email): Promise<boolean>;
    getByEmail(email: Email): Promise<Nutritionist>;
+   getAll(): Promise<Nutritionist[]>
 }

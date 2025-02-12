@@ -1,17 +1,28 @@
 {
-  "name": "@NUTRIWELL/CORE",
-  "version": "0.0.0",
-  "scripts": {
-    "start": "ts-node index.ts"
-  },
-  "description": "C'est le core du projet , il contient toute la logique metier, modelisée avec du DDD",
-  "main": "index.ts",
-  "author": "nxhermane",
-  "license": "MIT",
-  "private": true,
-  "dependencies": {
-    "domain-eventrix": "^1.0.9",
-    "smart-path-resolver": "^1.0.2",
-    "smartcal": "^1.0.1"
-  }
+   "name": "@NUTRIWELL/CORE",
+   "version": "0.0.0",
+   "description": "C'est le core du projet , il contient toute la logique métier, modélisée avec du DDD",
+   "main": "dist/index.js",
+   "module": "dist/index.js",
+   "types": "dist/index.d.ts",
+   "exports": {
+      ".": {
+         "import": "./dist/index.js",
+         "require": "./dist/index.js",
+         "types": "./dist/index.d.ts"
+      }
+   },
+   "author": "nxhermane",
+   "license": "MIT",
+   "private": true,
+   "scripts": {
+      "build": "tsc",
+      "start": "ts-node index.ts",
+      "clean": "rm -rf dist"
+   },
+   "dependencies": {
+      "domain-eventrix": "^1.0.9",
+      "smart-path-resolver": "^1.0.2",
+      "smartcal": "^1.0.1"
+   }
 }
