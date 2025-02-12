@@ -5,7 +5,7 @@ import { ConsultationPlace, NutritionAreaOfExpertise } from "../value-objects";
 
 export class NutritionistFactory implements Factory<CreateNutritionistProps, Nutritionist> {
    constructor(private readonly idGenerator: GenerateUniqueId) {}
-   async create(props: CreateNutritionistProps): Promise<Result<Nutritionist>> {
+   create(props: CreateNutritionistProps): Result<Nutritionist> {
       try {
          const humanNameResult = HumanName.create(props.name);
          const emailResult = Email.create(props.email);
