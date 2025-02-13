@@ -1,1 +1,1 @@
-export  { DomainEvent } from "domain-eventrix";
+export { DomainEvent, DomainEventMessage,bindEventHandler,EventHandler } from "domain-eventrix";

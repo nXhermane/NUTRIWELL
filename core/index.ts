@@ -1,10 +1,12 @@
-import * as FoodAndRecipe from "./FoodAndRecipe";
-import * as UnitManagement from "./UnitManagement";
-import * as Shared from "./shared";
-import * as Nutritionist from "./Nutritionist";
+export * as FoodAndRecipe from "./FoodAndRecipe";
+export * as UnitManagement from "./UnitManagement";
+export * as Shared from "./shared";
+export * as NutritionistManager from "./Nutritionist";
+export * as PatientManager from "./PatientManager";
 
-// Exporter les modules individuellement pour plus de flexibilité
-export { FoodAndRecipe, UnitManagement, Shared, Nutritionist };
-
-// Encapsulation dans un objet immuable
-export const Core = { FoodAndRecipe, UnitManagement, Shared, Nutritionist } as const;
+// export Type
+export type * as UnitManagementStruct from "./UnitManagement";
+export type * as SharedTypeStruct from "./shared";
+export type * as NutritionistManagerStruct from "./Nutritionist";
+export type * as FoodAndRecipeStruct from "./FoodAndRecipe";
+export type * as PatientManagerStruct from "./PatientManager";

@@ -18,7 +18,7 @@ export class CreateNutritionistUseCase implements UseCase<CreateNutritionistRequ
 
          const nutritionistResult = await Promise.resolve(this.nutritionistFactory.create(request));
          if (nutritionistResult.isFailure) return left(Result.fail(String(nutritionistResult.err)));
-
+         nutritionistResult.val.created();
          await this.nutritionistRepo.save(nutritionistResult.val);
 
          return right(Result.ok<{ id: AggregateID }>({ id: nutritionistResult.val.id }));

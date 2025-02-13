@@ -16,7 +16,7 @@
    "license": "MIT",
    "private": true,
    "scripts": {
-      "build": "tsc",
+      "build": "npx tsc && npx tsc-alias" ,
       "start": "ts-node index.ts",
       "clean": "rm -rf dist"
    },

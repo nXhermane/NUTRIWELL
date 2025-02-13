@@ -11,6 +11,7 @@ export class CreateFoodUnitUseCase implements UseCase<CreateFoodUnitRequest, Cre
          const foodUnitId = this.idGenerator.generate().toValue();
          const foodUnit = FoodUnit.create(request as IFoodUnit, foodUnitId);
          if (foodUnit.isFailure) return left(Result.fail<any>(String(foodUnit.err)));
+         foodUnit.val.created();
          await this.foodUnitRepo.save(foodUnit.val);
          return right(Result.ok());
       } catch (error) {

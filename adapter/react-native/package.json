@@ -4,7 +4,8 @@
    "description": "C'est l'adapter du core a l'app mobile react-native du projet nutriwell ",
    "main": "index.ts",
    "scripts": {
-    "start": "npx nodemon index.ts"
+    "start": "npx nodemon index.ts",
+    "build": "tsc"
    },
    "author": "nxhermane",
    "license": "MIT",
