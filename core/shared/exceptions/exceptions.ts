@@ -9,6 +9,8 @@ import {
    CREATION_FAILED,
    INVALID_RESULT,
    INVALID_DDD_OBJECT,
+   ILLEGAL_DOMAIN_STATUS,
+   ILLEGAL_DOMAIN_ACTION,
 } from "./exception.code";
 import { ExceptionBase } from "./exception.base";
 
@@ -148,4 +150,18 @@ export class InvalidObject extends ExceptionBase {
       super(msg);
    }
    readonly code = INVALID_DDD_OBJECT;
+}
+export class IllegalStateException extends ExceptionBase {
+   readonly code: string = ILLEGAL_DOMAIN_STATUS;
+   static readonly message = "The object status is not valid";
+   constructor(msg = IllegalStateException.message) {
+      super(msg);
+   }
+}
+export class IllegalActionException extends ExceptionBase {
+   readonly code: string = ILLEGAL_DOMAIN_ACTION;
+   static readonly message = "The current action is not legal.";
+   constructor(msg = IllegalActionException.message) {
+      super(msg);
+   }
 }

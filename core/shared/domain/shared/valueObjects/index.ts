@@ -13,3 +13,4 @@ export * from "./Timeframe";
 export * from "./MeasureUnit";
 export * from "./NutrientTagname";
 export * from "./NutrientCode";
+export * from "./Quantity";

@@ -75,6 +75,9 @@ export class Time extends ValueObject<string> {
       const minutes = String(date.getMinutes()).padStart(2, "0");
       return `${hours}:${minutes}`;
    }
+   getDate(): Date {
+      return new Date(`2000-01-01T${this.props._value}`);
+   }
 
    static create(props: string): Result<Time> {
       try {
