@@ -1,12 +1,11 @@
 import { Guard, handleError, NegativeValueError, Result, ValueObject } from "@shared";
-import { SmokingState } from "../../constants";
+import { AlcoholConsumption, DrugUse, SmokingState } from "../../constants";
 
 export interface ISubstanceConsumption {
    smokingState: SmokingState;
    cigaretesPerDay: number;
-   // Littre per day
-   alcoholConsumption: number;
-   drugUsage: string;
+   alcoholConsumption: AlcoholConsumption;
+   drugUsage: DrugUse;
    notes: string;
 }
 export class SubstanceConsumption extends ValueObject<ISubstanceConsumption> {
